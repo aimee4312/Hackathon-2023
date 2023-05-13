@@ -2,53 +2,41 @@ import pygame
 from pygame.sprite import Sprite
 
 # Alien class
-class Alien(Sprite):
-    def __init__(self, speed, hp, dmg, range):
-        self.type = type
-        self.speed = speed
-        self.hp = hp
-        self.dmg = dmg
-        self.range = range
-        
-
-
-    def __init__(self, ai_settings, screen):
-        """Initialize the ship, and set its starting position."""
-        super(Ship, self).__init__()
+class Troop(Sprite):
+    def __init__(self, sw_settings, screen):
+        # Initialize the troop, and set its starting position.
+        super(Troop, self).__init__()
         self.screen = screen
-        self.ai_settings = ai_settings
+        self.sw_settings = sw_settings
 
-        # Load the ship image, and get its rect.
-        self.image = pygame.image.load("images/ship.bmp")
+        # Load the troop image, and get its rect.
+        self.image = pygame.image.load("Sprites/basic_alien.png")
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
 
-        # Start each new ship at the bottom center of the screen.
+        # Start each new troop at the ???bottom center??? of the screen.
         self.rect.centerx = self.screen_rect.centerx
         self.rect.bottom = self.screen_rect.bottom
 
-        # Store a decimal value for the ship's center.
+        # Store a decimal value for the troop's center.
         self.center = float(self.rect.centerx)
 
         # Movement flags.
-        self.moving_right = False
-        self.moving_left = False
+        self.moving = True
 
-    def center_ship(self):
-        """Center the ship on the screen."""
-        self.center = self.screen_rect.centerx
+    def check_edges(self):
+        screen_rect = self.screen.get_rect()
+        if self.rect.right >= screen_rect.right:
+            return True
+        elif self.rect.left <= 0:
+            return True
 
     def update(self):
-        """Update the ship's position, based on movement flags."""
+        # Update the troop's position, based on movement flags
         # Update the ship's center value, not the rect.
-        if self.moving_right and self.rect.right < self.screen_rect.right:
-            self.center += self.ai_settings.ship_speed_factor
-        if self.moving_left and self.rect.left > 0:
-            self.center -= self.ai_settings.ship_speed_factor
-
-        # Update rect object from self.center.
-        self.rect.centerx = self.center
+        if self.moving:
+            self.rect.centerx += 5
 
     def blitme(self):
-        """Draw the ship at its current location."""
+        # Draw the troop at its current location.
         self.screen.blit(self.image, self.rect)
