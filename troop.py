@@ -22,10 +22,12 @@ class Troop(Sprite):
         self.center = float(self.rect.centerx)
 
         # Movement flags.
-        self.moving = True
-
+        self.moving = True  
+    
     def check_edges(self):
         screen_rect = self.screen.get_rect()
+        # Checks if the troops right is greater than the screen right
+        # meaning that it's passed the screen 
         if self.rect.right >= screen_rect.right:
             return True
         elif self.rect.left <= 0:
@@ -34,6 +36,7 @@ class Troop(Sprite):
     def update(self):
         # Update the troop's position, based on movement flags
         # Update the ship's center value, not the rect.
+        self.blitme
         if self.moving:
             self.rect.centerx += 5
 

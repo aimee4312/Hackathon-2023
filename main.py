@@ -3,7 +3,10 @@ from pygame import mixer
 
 from settings import Settings
 from troop import Troop
+from tower import Ship
 from tower import Tower
+from game_stats import GameStats
+
 
 def run_game():
     # Always the first step in using pygame
@@ -20,12 +23,15 @@ def run_game():
     #icon = pygame.image.load('spaceship.png')
     #pygame.display.set_icon(icon)
 
+    # Stats
+    stats = GameStats(sw_settings)
+
 
     # Background
-    background = pygame.image.load('background.png')
+    background = pygame.image.load('Sprites/background.png')
 
     # Background sound
-    mixer.music.load("Sounds/alien swamp.ogg")
+    mixer.music.load("Sounds/background_sound.ogg")
     mixer.music.set_volume(6)
     mixer.music.play(-1)
 
@@ -50,8 +56,11 @@ def run_game():
         screen.fill(sw_settings.bg_color)
         screen.blit(background, (0, 0))
         
-        #test_tower = Tower(sw_settings, screen)
-        #test_tower.blitme()
+        test_tower = Tower(sw_settings, screen)
+        test_tower.blitme()
+
+        test_ship = Ship(sw_settings, screen)
+        test_ship.blitme()
 
         test_troop.blitme()
         test_troop.update()
