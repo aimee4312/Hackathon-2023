@@ -5,6 +5,7 @@ from settings import Settings
 from troop import Troop
 from tower import Ship
 from tower import Tower
+from tower import Laser
 from game_stats import GameStats
 
 
@@ -56,11 +57,13 @@ def run_game():
         screen.fill(sw_settings.bg_color)
         screen.blit(background, (0, 0))
         
-        test_tower = Tower(sw_settings, screen)
-        test_tower.blitme()
+        tower = Tower(sw_settings, screen)
+        tower.blitme()
+        laser = Laser(sw_settings, screen)
+        laser.blitme()
 
-        test_ship = Ship(sw_settings, screen)
-        test_ship.blitme()
+        ship = Ship(sw_settings, screen)
+        ship.blitme()
 
         test_troop.blitme()
         test_troop.update()
