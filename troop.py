@@ -3,14 +3,14 @@ from pygame.sprite import Sprite
 
 # Alien class
 class Troop(Sprite):
-    def __init__(self, sw_settings, screen):
+    def __init__(self, sw_settings, screen, health, speed, range, dps, image, isPlayer):
         # Initialize the troop, and set its starting position.
         super(Troop, self).__init__()
         self.screen = screen
         self.sw_settings = sw_settings
 
         # Load the troop image, and get its rect.
-        self.image = pygame.image.load("Sprites/basic_alien.png")
+        self.image = pygame.image.load(image)
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
 
@@ -22,7 +22,17 @@ class Troop(Sprite):
         self.center = float(self.rect.centerx)
 
         # Movement flags.
-        self.moving = True  
+        self.moving = True 
+        
+        # initialize stats
+        self.health = health
+        self.speed = speed
+        self.dps = dps
+        if isPlayer:
+            self.range = range
+        else:
+            self.range = (range * -1)
+         
     
     def check_edges(self):
         screen_rect = self.screen.get_rect()

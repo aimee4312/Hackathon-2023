@@ -7,7 +7,7 @@ class GameStats:
         self.reset_stats()
 
         # Game isn't active until the play button is pressed
-        #self.game_active = False
+        self.game_active = False
 
 
     def reset_stats(self):

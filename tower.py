@@ -1,12 +1,28 @@
 import pygame
 from pygame.sprite import Sprite
+from assets import *
+
+'''
+TO DO ->
+- add a range of fire and dmg
+- on space, activate the lasers (eyes and shooter)
+    - eyes disappear after 200ms and shooter travels
+    - on shooter collision with ground, trigger explosion, enemies in range will take dmg
+- add a cooldown to the laser
+- add laser shooting sound and explosion sound
+'''
+
+
+
+
+
 
 # Tower class
 class Tower(Sprite):
     def __init__(self, sw_settings, screen):
         self.screen = screen
         self.sw_settings = sw_settings
-        self.image = pygame.image.load("Sprites/tower.png")
+        self.image = pygame.image.load(TOWER)
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
 
@@ -17,7 +33,6 @@ class Tower(Sprite):
         self.rect.x = 5
         self.rect.y = 180
         
-        # Figure out where the tower should be
     def blitme(self):
         self.screen.blit(self.image, self.rect)
 
@@ -25,7 +40,7 @@ class Ship(Sprite):
     def __init__(self, sw_settings, screen):
         self.screen = screen
         self.sw_settings = sw_settings
-        self.image = pygame.image.load("Sprites/spaceship.png")
+        self.image = pygame.image.load(SHIP)
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
 
@@ -42,8 +57,8 @@ class Laser(Sprite):
     def __init__(self, sw_settings, screen):
         self.screen = screen
         self.sw_settings = sw_settings
-        self.left_laser = pygame.image.load("Sprites/laser eyes.png")
-        self.right_laser = pygame.image.load("Sprites/laser eyes.png")
+        self.left_laser = pygame.image.load(LZR_EYES)
+        self.right_laser = pygame.image.load(LZR_EYES)
         self.rect = self.left_laser.get_rect()
         self.screen_rect = screen.get_rect()
         width = self.left_laser.get_rect().width
