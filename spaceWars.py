@@ -22,6 +22,9 @@ def _check_play_button(mouse_pos):
 
         # TODO: get rid of troops and create new aliens?
 
+        # Hides mouse cursor
+        pygame.mouse.set_visible(False)
+
 
 # def run_game():
 # Always the first step in using pygame
@@ -103,7 +106,7 @@ while running:
                 pass
             if event.key == pygame.K_4: # summon tank
                 pass 
-            if event.key == pygame.K_SPACE: # summon laser
+            if event.key == pygame.K_SPACE: # summon laser (CURRENTLY DOESNT WORK)
                 laser = Laser(sw_settings, screen)
                 laser.blitme()
                 end_time = pygame.time.get_ticks() + 200

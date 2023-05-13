@@ -10,6 +10,10 @@ TO DO ->
     - on shooter collision with ground, trigger explosion, enemies in range will take dmg
 - add a cooldown to the laser
 - add laser shooting sound and explosion sound
+
+
+CURRENT STATUS ->
+- space button (doesnt work)
 '''
 
 
@@ -26,6 +30,7 @@ class Tower(Sprite):
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
 
+        # Setting the size and location
         width = self.image.get_rect().width
         height = self.image.get_rect().height
         self.image = pygame.transform.scale(self.image, (int(width * 0.8), int(height * 0.8)))
@@ -36,6 +41,7 @@ class Tower(Sprite):
     def blitme(self):
         self.screen.blit(self.image, self.rect)
 
+# Ship class
 class Ship(Sprite):
     def __init__(self, sw_settings, screen):
         self.screen = screen
@@ -44,6 +50,7 @@ class Ship(Sprite):
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
 
+        # Setting the size and location
         width = self.image.get_rect().width
         height = self.image.get_rect().height
         self.image = pygame.transform.scale(self.image, (int(width * 1.5), int(height * 1.5)))
@@ -53,6 +60,8 @@ class Ship(Sprite):
     def blitme(self):
         self.screen.blit(self.image, self.rect)
 
+
+# Laser class
 class Laser(Sprite):
     def __init__(self, sw_settings, screen):
         self.screen = screen
@@ -61,6 +70,8 @@ class Laser(Sprite):
         self.right_laser = pygame.image.load(LZR_EYES)
         self.rect = self.left_laser.get_rect()
         self.screen_rect = screen.get_rect()
+
+        # Setting the size and location
         width = self.left_laser.get_rect().width
         height = self.left_laser.get_rect().height
         self.left_laser = pygame.transform.scale(self.left_laser, (int(width * 0.5), int(height * 0.5)))
