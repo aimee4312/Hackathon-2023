@@ -1,18 +1,66 @@
 import pygame
 import random
 from constructors import *
+from queue import Queue
 
 # 1 = reg, 2 = fast, 3 = range, 4 = tank
     
-ez_q1 = [1, 1, 1, 3, 1]
-ez_q2 = [1, 1, 2, 1, 1]
-ez_q3 = [1, 1, 2, 3, 1]
+ez_q1 = Queue(5)
+ez_q1.put(1)
+ez_q1.put(1)
+ez_q1.put(1)
+ez_q1.put(3)
+ez_q1.put(1)
 
-med_q1 = [1, 2, 4, 2, 3, 1, 3]
-med_q2 = [1, 2, 3, 1, 2, 1, 4]
-med_q3 = [3, 4, 1, 2, 1, 2, 1]
+ez_q2 = Queue(5)
+ez_q2.put(1)
+ez_q2.put(1)
+ez_q2.put(2)
+ez_q2.put(1)
+ez_q2.put(1)
 
-hard_q1 = [2, 4, 2, 3, 2, 1, 4]
+ez_q3 = Queue(5)
+ez_q3.put(1)
+ez_q3.put(1)
+ez_q3.put(2)
+ez_q3.put(3)
+ez_q3.put(1)
+
+med_q1 = Queue(7)
+med_q1.put(1)
+med_q1.put(2)
+med_q1.put(4)
+med_q1.put(2)
+med_q1.put(3)
+med_q1.put(1)
+med_q1.put(3)
+
+med_q2 = Queue(7)
+med_q2.put(1)
+med_q2.put(2)
+med_q2.put(3)
+med_q2.put(1)
+med_q2.put(2)
+med_q2.put(1)
+med_q2.put(4)
+
+med_q3 = Queue(7)
+med_q3.put(3)
+med_q3.put(4)
+med_q3.put(1)
+med_q3.put(2)
+med_q3.put(1)
+med_q3.put(2)
+med_q3.put(1)
+
+hard_q1 = Queue(7)
+hard_q1.put(2)
+hard_q1.put(4)
+hard_q1.put(2)
+hard_q1.put(3)
+hard_q1.put(2)
+hard_q1.put(2)
+[2, 4, 2, 3, 2, 1, 4]
 hard_q2 = [4, 2, 3, 4, 3, 1, 2]
 hard_q3 = [2, 2, 2, 4, 4, 3, 3]
 
@@ -20,7 +68,7 @@ ez_qs = [ez_q1, ez_q2, ez_q3]
 med_qs = [med_q1, med_q2, med_q3]
 hard_qs = [hard_q1, hard_q2, hard_q3] 
 
-class enemy_ai():
+class Enemy_ai():
     def __init__(self, clock):
         self.clock = clock
         self.wave = 1
@@ -42,6 +90,9 @@ class enemy_ai():
             
     def get_next_troop(self):
         num = self.current_q.pop
+        
+        #if self.current_q.empty()
+        
         match num:
             case 1:
                 return spawn_np_reg()

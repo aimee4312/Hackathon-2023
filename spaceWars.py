@@ -12,6 +12,7 @@ from tower import Laser
 from computer_play import enemy_ai
 from game_stats import GameStats
 from button import Button
+from button import spawnButtons
 from currency_display import CurrencyDisplay
 from value_display import ValueDisplay
 from constructors import *
@@ -61,22 +62,34 @@ background = pygame.image.load(BG_IMG)
 pygame.mixer.Channel(0).play(pygame.mixer.Sound(BG_MUSIC), loops = -1)
 pygame.mixer.Channel(0).set_volume(6)
 
+# Time and Clock
+clock = pygame.time.Clock
+
+# Enemy Spawn AI
+enemy_ai = Enemy_ai(clock)
+
 # Spawned Troops
 ally_troops = []
 enemy_troops = []
 ally_attacking_troops = []
 enemy_attacking_troops = []
 
-#for i in range(num_of_enemies):
-#    enemyImg.append(pygame.image.load('alien.png'))
-#    enemyX.append(random.randint(0, 735))
-#    enemyX_change.append(2)
-
 #test_troop = Troop(sw_settings, screen)
 
+# Ally and enemy bases
 laser = Laser(sw_settings, screen)
 tower = Tower(sw_settings, screen)
 ship = Ship(sw_settings, screen)
+
+# Spawn Buttons
+wButton = spawnButtons(screen, "weak")
+fButton = spawnButtons(screen, "fast")
+rButton = spawnButtons(screen, "ranged")
+tButton = spawnButtons(screen, "tank")
+
+spawn_buttons = [wButton, fButton, rButton, tButton]
+
+tower_health_display = ValueDisplay(sw_settings, screen, stats, tower)
 
 
 # Play Button
@@ -94,12 +107,18 @@ while running:
     tower.blitme()
     ship.blitme()
 
+    clock.tick(60)
+    
     # Draw currency info
     currency_display.show_currency()
 
     # Draw play button if inactive game
     if not stats.game_active:
         play_button.draw_button()
+    else:
+        for button in spawn_buttons:
+            button.blitme()
+
     
     for event in pygame.event.get():
         # close the game when close button is clicked

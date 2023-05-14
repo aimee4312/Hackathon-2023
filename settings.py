@@ -22,9 +22,9 @@ class Settings:
         self.range_cost = 75
         self.tank_cost = 100
 
-
-        
-        Dict = {'reg': 15, 'fast': 4, 'ranged': 3, 'tank': 2}
+        # Tower Settings
+        self.tower_max_health = 1000
+        self.ship_max_health = 1000
 
         # # How quickly the game speeds up.
         # self.speedup_scale = 1.1

@@ -20,6 +20,8 @@ class Tower(Sprite):
         self.image = pygame.transform.flip(self.image, True, False)
         self.rect.x = 5
         self.rect.y = 180
+
+        self.health = sw_settings.tower_max_health
         
     def blitme(self):
         self.screen.blit(self.image, self.rect)
@@ -39,6 +41,8 @@ class Ship(Sprite):
         self.image = pygame.transform.scale(self.image, (int(width * 1.5), int(height * 1.5)))
         self.rect.x = 570
         self.rect.y = 120
+
+        self.health = sw_settings.ship_max_health
     
     def blitme(self):
         self.screen.blit(self.image, self.rect)
