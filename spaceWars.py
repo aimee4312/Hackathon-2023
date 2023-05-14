@@ -22,12 +22,12 @@ from assets import *
 def _check_play_button(mouse_pos):
     """Start new game when player clicks Play"""
     play_button_clicked = play_button.rect.collidepoint(mouse_pos)
-
-    wcollision_rect = wButton.rect.inflate(-150, -150)
-    fcollision_rect = fButton.rect.inflate(-150, -150)
-    rcollision_rect = rButton.rect.inflate(-150, -150)
-    tcollision_rect = tButton.rect.inflate(-150, -150)
     
+    wcollision_rect = pygame.Rect(wButton.rect.left - 90, wButton.rect.top - 90, wButton.rect.width - 90, wButton.rect.height - 90)
+    fcollision_rect = pygame.Rect(fButton.rect.left - 90, fButton.rect.top - 90, fButton.rect.width - 90, fButton.rect.height - 90)
+    rcollision_rect = pygame.Rect(rButton.rect.left - 90, rButton.rect.top - 90, rButton.rect.width - 90, rButton.rect.height - 90)
+    tcollision_rect = pygame.Rect(tButton.rect.left - 90, tButton.rect.top - 90, tButton.rect.width - 90, tButton.rect.height - 90)
+
     aw_button_clicked = wcollision_rect.collidepoint(mouse_pos)
     af_button_clicked = fcollision_rect.collidepoint(mouse_pos)
     ar_button_clicked = rcollision_rect.collidepoint(mouse_pos)
@@ -205,11 +205,12 @@ while running:
         for troop in ally_troops:
             ally_attacking_troops = troop.update(target_enemy, ally_attacking_troops)
         for troop in enemy_troops:
-            enemy_attacking_troops = troop.update(target_user, enemy_attacking_troops)
+            pass
+            #enemy_attacking_troops = troop.update(target_user, enemy_attacking_troops)
             
         # combat ai
         if enemy_troops:
-            target_enemy = min(enemy_troops, key=lambda x: x.rect.centerx)
+            #target_enemy = min(enemy_troops, key=lambda x: x.rect.centerx)
             print(target_enemy)
         else:
             target_enemy = 0
