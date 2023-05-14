@@ -13,6 +13,7 @@ from button import Button
 from currency_display import CurrencyDisplay
 from constructors import *
 from assets import *
+from troop import deal_damage
 
 
 def _check_play_button(mouse_pos):
@@ -126,7 +127,8 @@ while running:
                 enemy_troops.append(a)
                 stats.currency -= 75
             if event.key == pygame.K_3 and stats.currency >= 40: # summon stronk unit
-                spawn_p_range(sw_settings, screen)
+                a = spawn_p_range(sw_settings, screen)
+                ally_troops.append(a)
                 stats.currency -= 200
             if event.key == pygame.K_4 and stats.currency >= 80: # summon tank
                 spawn_p_tank(sw_settings, screen)
@@ -146,6 +148,8 @@ while running:
         elif event.type == sw_settings.passive_income_event_id:
             stats.currency += stats.passive_income_rate
             currency_display.prep_amount()
+            if ally_attacking_troops or enemy_attacking_troops and target_enemy and target_user:
+                ally_attacking_troops, enemy_attacking_troops, ally_troops, enemy_troops = deal_damage(ally_attacking_troops, enemy_attacking_troops, ally_troops, enemy_troops, target_user, target_enemy)
         
 
     if not gameover:

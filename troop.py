@@ -58,12 +58,11 @@ class Troop(Sprite):
         # Update the troop's movement and existence
         self.blitme()
         if enemy and self.check_collisions(enemy):
-            self.moving = False
-            attacking_list.append(self)
-
-        if self.moving:
+            if self.moving:
+                attacking_list.append(self)
+                self.moving = False
+        else:
             self.rect.centerx += self.speed
-        
         return attacking_list
 
 
@@ -73,17 +72,18 @@ class Troop(Sprite):
     
 
 def deal_damage(user_attack_list, enemy_attack_list, user_list, enemy_list, user_target, enemy_target):
-    user_damage_total = sum(troop.dps for troop in user_attack_list)
+    user_damage_total = 0
+    for troop in user_attack_list:
+        user_damage_total += troop.dps
     enemy_damage_total = sum(troop.dps for troop in enemy_attack_list)
     user_target.health -= enemy_damage_total
     enemy_target.health -= user_damage_total
     if user_target.health <= 0:
         if user_target in user_attack_list:
             user_attack_list.remove(user_target)
-        user_target.kill()
         user_list.remove(user_target)
     if enemy_target.health <= 0:
         if enemy_target in enemy_attack_list:
             enemy_attack_list.remove(enemy_target)
-        
-        user_list.remove(enemy_target)
+        enemy_list.remove(enemy_target)
+    return user_attack_list, enemy_attack_list, user_list, enemy_list
