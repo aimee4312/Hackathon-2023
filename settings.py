@@ -1,3 +1,5 @@
+import pygame
+
 class Settings:
     # A class to store all settings 
 
@@ -8,6 +10,10 @@ class Settings:
         self.screen_height = 600
         self.bg_color = (0, 0, 0) #change bg color
 
+
+        # Currency Settings
+        self.passive_income_interval = 1000; # 1 second
+        self.passive_income_event_id = pygame.USEREVENT
 
         # # Alien settings.
         # self.fleet_drop_speed = 10

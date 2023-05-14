@@ -15,8 +15,11 @@ class Troop(Sprite):
         self.screen_rect = screen.get_rect()
 
         # Start each new troop at the ???bottom center??? of the screen.
-        self.rect.centerx = self.screen_rect.centerx
-        self.rect.bottom = self.screen_rect.bottom
+        self.rect.centerx = 150
+        if not isPlayer:
+            self.rect.centerx = sw_settings.screen_width - 150
+        self.rect.centery = sw_settings.screen_height - 75
+        
 
         # Store a decimal value for the troop's center.
         self.center = float(self.rect.centerx)
@@ -28,11 +31,14 @@ class Troop(Sprite):
         self.health = health
         self.speed = speed
         self.dps = dps
-        if isPlayer:
-            self.range = range
-        else:
-            self.range = (range * -1)
+        self.range = range
+        if not isPlayer:
+            self.range *= -1
          
+    
+    def check_collisions(self, enemy):
+        rad = self.rect.centerx + self.range
+        return (rad - enemy.rect.centerx) <= 0
     
     def check_edges(self):
         screen_rect = self.screen.get_rect()
@@ -43,13 +49,27 @@ class Troop(Sprite):
         elif self.rect.left <= 0:
             return True
 
-    def update(self):
-        # Update the troop's position, based on movement flags
-        # Update the ship's center value, not the rect.
-        self.blitme
+    def update(self, enemy, attacking_list):
+        # Update the troop's movement and existence
+        self.blitme()
+        
+        if self.check_collisions(enemy):
+            self.moving = False
+            attacking_list.append(self)
         if self.moving:
-            self.rect.centerx += 5
+            self.rect.centerx += self.speed
+        if self.health <= 0:
+            self.kill
 
     def blitme(self):
         # Draw the troop at its current location.
         self.screen.blit(self.image, self.rect)
+
+# def deal_damage(user_attack_list, enemy_attack_list, user_list, enemy_list):
+#     user_target = max(user_list, key=lambda x: x.rect.centerx)
+#     enemy_target = min(enemy_list, key=lambda x: x.rect.centerx)
+#     user_damage_total = sum(troop.dps for troop in user_attack_list)
+#     enemy_damage_total = sum(troop.dps for troop in enemy_attack_list)
+#     user_target.health -= enemy_damage_total
+#     enemy_target.health -= user_damage_total
+#     if user_target.health <= 0:

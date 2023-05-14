@@ -9,6 +9,9 @@ class GameStats:
         # Game isn't active until the play button is pressed
         self.game_active = False
 
+        # Currency gained per second
+        self.passive_income_rate = 5
+
 
     def reset_stats(self):
         """Init stats"""

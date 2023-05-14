@@ -1,5 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
+from pygame import mixer
 from assets import *
 
 '''
@@ -68,12 +69,15 @@ class Laser(Sprite):
         self.sw_settings = sw_settings
         self.left_laser = pygame.image.load(LZR_EYES)
         self.right_laser = pygame.image.load(LZR_EYES)
+        self.laser_shot = pygame.image.load(LZR_SHOT)
         self.rect = self.left_laser.get_rect()
         self.screen_rect = screen.get_rect()
+        self.laser_list = []
 
         # Setting the size and location
         width = self.left_laser.get_rect().width
         height = self.left_laser.get_rect().height
+        self.laser_shot = pygame.transform.rotate(self.laser_shot, 60)
         self.left_laser = pygame.transform.scale(self.left_laser, (int(width * 0.5), int(height * 0.5)))
         self.right_laser = pygame.transform.scale(self.right_laser, (int(width * 0.5), int(height * 0.5)))
         self.right_laser = pygame.transform.flip(self.right_laser, True, False)
@@ -83,3 +87,10 @@ class Laser(Sprite):
     def blitme(self):
         self.screen.blit(self.left_laser, self.rect)
         self.screen.blit(self.right_laser, self.rect)
+        self.screen.blit(self.laser_shot, (-45, 50))
+    
+    def laser_sound(self):
+        mixer.music.load(TOWER_LASER)
+        mixer.music.set_volume(1)
+        mixer.music.play()
+    

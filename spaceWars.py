@@ -1,7 +1,6 @@
 import pygame
 from pygame import mixer
-
-import assets
+from pygame.locals import *
 
 from settings import Settings
 from troop import Troop
@@ -10,6 +9,8 @@ from tower import Tower
 from tower import Laser
 from game_stats import GameStats
 from button import Button
+from constructors import *
+from assets import *
 
 
 def _check_play_button(mouse_pos):
@@ -24,6 +25,9 @@ def _check_play_button(mouse_pos):
 
         # Hides mouse cursor
         pygame.mouse.set_visible(False)
+        
+        # Sets passive income generation timer
+        pygame.time.set_timer(sw_settings.passive_income_event_id, sw_settings.passive_income_interval)
 
 
 # def run_game():
@@ -53,11 +57,10 @@ mixer.music.load('Sounds/background_sound.ogg')
 mixer.music.set_volume(6)
 mixer.music.play(-1)
 
+# Spawned Troops
+ally_troops = []
+enemy_troops = []
 
-# Enemies
-enemyImg = []
-enemyX = []
-enemyX_change = []
 
 #for i in range(num_of_enemies):
 #    enemyImg.append(pygame.image.load('alien.png'))
@@ -66,31 +69,32 @@ enemyX_change = []
 
 #test_troop = Troop(sw_settings, screen)
 
+
 # Play Button
 play_button = Button(screen, "Play")
 
+
 gameover = False
 running = True
-while running:
+laser_use = True
 
+while running:
+    
     screen.fill(sw_settings.bg_color)
     screen.blit(background, (0, 0))
-    
+
+    laser = Laser(sw_settings, screen)
     tower = Tower(sw_settings, screen)
     tower.blitme()
 
     ship = Ship(sw_settings, screen)
     ship.blitme()
 
-    #test_troop.blitme()
-    #test_troop.update()
-
     # Draw play button if inactive game
     if not stats.game_active:
         play_button.draw_button()
 
-    pygame.display.flip()
-
+ 
     for event in pygame.event.get():
         # close the game when close button is clicked
         if event.type == pygame.QUIT:
@@ -98,32 +102,41 @@ while running:
         # Player Controls
         # Each button corresponds to a specific unit
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_1: # summon reg unit
-                pass
+            if event.key == pygame.K_1: # summon reg units
+                #make conditional if currency > cost
+                a = spawn_p_reg(sw_settings, screen)
+                ally_troops.append(a)
+                a.update()
             if event.key == pygame.K_2: # summon  unit
-                pass
+                spawn_p_fast(sw_settings, screen)
             if event.key == pygame.K_3: # summon stronk unit
-                pass
+                spawn_p_range(sw_settings, screen)
             if event.key == pygame.K_4: # summon tank
-                pass 
+                spawn_p_tank(sw_settings, screen)
             if event.key == pygame.K_SPACE: # summon laser (CURRENTLY DOESNT WORK)
-                laser = Laser(sw_settings, screen)
-                laser.blitme()
-                end_time = pygame.time.get_ticks() + 200
-                current_time = pygame.time.get_ticks()
-                if current_time > end_time:
-                    laser.kill()
+                if laser_use == True:
+                    laser.blitme()
+                    laser.laser_sound()
+                    laser_use = False
+                
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             _check_play_button(mouse_pos)
 
+        elif event.type == sw_settings.passive_income_event_id:
+            stats.currency += stats.passive_income_rate
+        
+
     
     if not gameover:
         # game stuff           
-        pass
+        for troop in ally_troops:
+            troop.update()
+        for troop in enemy_troops:
+            troop.update()
+            
     
     
-    
+    pygame.display.flip()
     #pygame.display.update()
-
 #run_game()
