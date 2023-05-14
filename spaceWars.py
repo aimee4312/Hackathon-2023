@@ -99,15 +99,7 @@ while running:
     if not stats.game_active:
         play_button.draw_button()
 
-    if enemy_troops:
-        target_enemy = min(enemy_troops, key=lambda x: x.rect.centerx)
-        print(target_enemy)
-    else:
-        target_enemy = 0
-    if ally_troops:
-        target_user = max(ally_troops, key=lambda x: x.rect.centerx)
-    else: target_user = 0
-
+ 
     for event in pygame.event.get():
         # close the game when close button is clicked
         if event.type == pygame.QUIT:
@@ -119,21 +111,21 @@ while running:
                 stats.currency += 100
             if event.key == pygame.K_1 and stats.currency >= 25: # summon reg units
                 #make conditional if currency > cost
-                a = spawn_p_reg(sw_settings, screen)
+                a = spawn_p_reg(sw_settings, screen, sw_settings.reg_cost / 2)
                 ally_troops.append(a)
-                stats.currency -= 25
+                stats.currency -= sw_settings.reg_cost
             if event.key == pygame.K_2 and stats.currency >= 50: # summon unit
-                a = spawn_p_fast(sw_settings, screen)
+                a = spawn_p_fast(sw_settings, screen, sw_settings.fast_cost / 2)
                 ally_troops.append(a)
-                stats.currency -= 50
+                stats.currency -= sw_settings.fast_cost
             if event.key == pygame.K_3 and stats.currency >= 75: # summon stronk unit
-                a = spawn_p_range(sw_settings, screen)
+                a = spawn_p_range(sw_settings, screen, sw_settings.range_cost / 2)
                 ally_troops.append(a)
-                stats.currency -= 75
+                stats.currency -= sw_settings.range_cost
             if event.key == pygame.K_4 and stats.currency >= 100: # summon tank
-                a = spawn_p_tank(sw_settings, screen)
+                a = spawn_p_tank(sw_settings, screen, sw_settings.tank_cost / 2)
                 ally_troops.append(a)
-                stats.currency -= 100
+                stats.currency -= sw_settings.tank_cost
             if event.key == pygame.K_SPACE and stats.currency >= 400: # summon laser (CURRENTLY DOESNT WORK)
                 if laser_use == True:
                     laser.blitme()
@@ -151,12 +143,13 @@ while running:
             currency_display.prep_amount()
         
 
+    
     if not gameover:
         # game stuff           
         for troop in ally_troops:
-            ally_attacking_troops = troop.update(target_enemy, ally_attacking_troops)
+            troop.update()
         for troop in enemy_troops:
-            enemy_attacking_troops = troop.update(target_user, enemy_attacking_troops)
+            troop.update()
             
     
     
