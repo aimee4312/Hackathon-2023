@@ -21,10 +21,17 @@ class Settings:
         self.fast_cost = 50
         self.range_cost = 75
         self.tank_cost = 100
+        self.laser_cost = 400
 
         # Tower Settings
         self.tower_max_health = 1000
         self.ship_max_health = 1000
+        
+        self.tower_health_counter_x = 100
+        self.tower_health_counter_y = 100
+
+        self.ship_health_counter_x = 700
+        self.ship_health_counter_y = 100
 
         # # How quickly the game speeds up.
         # self.speedup_scale = 1.1
