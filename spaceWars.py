@@ -12,9 +12,9 @@ from computer_play import Enemy_ai
 from computer_play import Enemy_ai
 from game_stats import GameStats
 from button import Button
-# from button import spawnButtons
+from button import spawnButtons
 from currency_display import CurrencyDisplay
-#from value_display import ValueDisplay
+from value_display import ValueDisplay
 from constructors import *
 from assets import *
 
@@ -105,15 +105,15 @@ tower = Tower(sw_settings, screen)
 ship = Ship(sw_settings, screen)
 
 # Spawn Buttons
-# wButton = spawnButtons(screen, "weak")
-# fButton = spawnButtons(screen, "fast")
-# rButton = spawnButtons(screen, "ranged")
-# tButton = spawnButtons(screen, "tank")
+wButton = spawnButtons(screen, "weak")
+fButton = spawnButtons(screen, "fast")
+rButton = spawnButtons(screen, "ranged")
+tButton = spawnButtons(screen, "tank")
 
-# spawn_buttons = [wButton, fButton, rButton, tButton]
+spawn_buttons = [wButton, fButton, rButton, tButton]
 
 # Tower Health Displays
-#tower_health_display = ValueDisplay(sw_settings, screen, stats, tower.health)
+tower_health_display = ValueDisplay(sw_settings, screen, stats, tower.health)
 ship_health_display = ValueDisplay(sw_settings, screen, stats, ship.health)
 
 # Play Button
@@ -151,8 +151,9 @@ while running:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_c:
                 stats.currency += 100
+            
+            # summon units
             if event.key == pygame.K_1 and stats.currency >= sw_settings.reg_cost: # summon reg units
-                #make conditional if currency > cost
                 a = spawn_p_reg(sw_settings, screen, sw_settings.reg_cost / 2)
                 ally_troops.append(a)
                 stats.currency -= sw_settings.reg_cost
@@ -176,15 +177,17 @@ while running:
                     laser.laser_explosion()
                     laser_use = False
         
+        # enemy spawn
         elif event.type == nme_event_id:
             e = enemy_ai.get_next_troop
-            e.update()
             enemy_troops.append(e)
-                
+        
+        # click buttons        
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             _check_play_button(mouse_pos)
 
+        # free money baybee
         elif event.type == sw_settings.passive_income_event_id:
             stats.currency += stats.passive_income_rate
             currency_display.prep_amount()
