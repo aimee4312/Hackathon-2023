@@ -83,9 +83,24 @@ class spawnButtons(Sprite):
                 self.msgx = 400
                 self.msgy = 10
                 self.cost_msg("4. Cost: 100")
+            case "laser":
+                self.image = pygame.image.load(LZR_BUTTON)
+                self.rect = self.image.get_rect()
+                width = self.image.get_rect().width
+                height = self.image.get_rect().height
+                self.image = pygame.transform.scale(self.image, (int(width * 0.3), int(height * 0.3)))
+                self.rect.x = 178
+                self.rect.y = 300
+                self.msgx = 190
+                self.msgy = 310
+                self.cost_msg("Cost: 400")
     
     def cost_msg(self, msg):
-        self.cost = self.font.render(msg, True, (0,0,0))
+        if msg == "Cost: 400":
+            self.font = pygame.font.SysFont(None, 20)
+            self.cost = self.font.render(msg, True, (0,0,0))
+        else:
+            self.cost = self.font.render(msg, True, (0,0,0))
     
     def blitme(self):
         self.screen.blit(self.image, self.rect)

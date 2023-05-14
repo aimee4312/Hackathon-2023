@@ -26,7 +26,7 @@ class CurrencyDisplay:
         # Display score at bot left
         self.currency_rect = self.currency_image.get_rect()
         self.currency_rect.left = self.screen_rect.left + 20
-        self.currency_rect.bottom = 20
+        self.currency_rect.bottom = 200
 
     def show_currency(self):
         """Draw currency amount to screen"""

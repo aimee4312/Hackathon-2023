@@ -18,20 +18,22 @@ from value_display import ValueDisplay
 from constructors import *
 from assets import *
 
-
+laser_use = True
 def _check_play_button(mouse_pos):
     """Start new game when player clicks Play"""
     play_button_clicked = play_button.rect.collidepoint(mouse_pos)
-    
+
     wcollision_rect = pygame.Rect(wButton.rect.left - 90, wButton.rect.top - 90, wButton.rect.width - 90, wButton.rect.height - 90)
     fcollision_rect = pygame.Rect(fButton.rect.left - 90, fButton.rect.top - 90, fButton.rect.width - 90, fButton.rect.height - 90)
     rcollision_rect = pygame.Rect(rButton.rect.left - 90, rButton.rect.top - 90, rButton.rect.width - 90, rButton.rect.height - 90)
     tcollision_rect = pygame.Rect(tButton.rect.left - 90, tButton.rect.top - 90, tButton.rect.width - 90, tButton.rect.height - 90)
+    #lcollision_rect = pygame.Rect(lButton.rect.left - 90, lButton.rect.top - 90, lButton.rect.width - 90, lButton.rect.height - 90)
 
     aw_button_clicked = wcollision_rect.collidepoint(mouse_pos)
     af_button_clicked = fcollision_rect.collidepoint(mouse_pos)
     ar_button_clicked = rcollision_rect.collidepoint(mouse_pos)
     at_button_clicked = tcollision_rect.collidepoint(mouse_pos)
+    #lzr_button_clicked = lcollision_rect.collidepoint(mouse_pos)
     if play_button_clicked and not stats.game_active:
         # Reset stats
         stats.reset_stats()
@@ -56,10 +58,18 @@ def _check_play_button(mouse_pos):
         a = spawn_p_range(sw_settings, screen, sw_settings.range_cost / 2)
         ally_troops.append(a)
         stats.currency -= sw_settings.range_cost
-    elif at_button_clicked and stats.currency >= 100:
+    elif at_button_clicked and stats.currency >= sw_settings.tank_cost:
         a = spawn_p_tank(sw_settings, screen, sw_settings.tank_cost / 2)
         ally_troops.append(a)
         stats.currency -= sw_settings.tank_cost
+    # elif lzr_button_clicked and stats.currency >= sw_settings.laser_cost and laser_use == True:
+    #     laser.blitme()
+    #     laser.laser_sound()
+    #     sleep(0.5)
+    #     laser.laser_explosion()
+    #     laser_use = False
+
+        
 
 
 # def run_game():
@@ -115,6 +125,7 @@ wButton = spawnButtons(screen, "weak")
 fButton = spawnButtons(screen, "fast")
 rButton = spawnButtons(screen, "ranged")
 tButton = spawnButtons(screen, "tank")
+lButton = spawnButtons(screen, "laser")
 
 spawn_buttons = [wButton, fButton, rButton, tButton]
 
@@ -128,7 +139,7 @@ play_button = Button(screen, "Play")
 
 gameover = False
 running = True
-laser_use = True
+
 while running:
     
     screen.fill(sw_settings.bg_color)
@@ -146,6 +157,7 @@ while running:
     else:
         for button in spawn_buttons:
             button.blitme()
+    
 
     
     for event in pygame.event.get():

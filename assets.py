@@ -10,6 +10,7 @@ AW_BUTTON = 'Sprites/weak button.png'
 AF_BUTTON = 'Sprites/fast button.png'
 AR_BUTTON = 'Sprites/ranged button.png'
 AT_BUTTON = 'Sprites/tank button.png'
+LZR_BUTTON = 'Sprites/laser button.png'
 
 
 E_WEAK = 'Sprites/weak enemy.png'
