@@ -24,6 +24,7 @@ SHIP = 'Sprites/spaceship.png'
 TOWER = 'Sprites/tower.png'
 LZR_SHOT = 'Sprites/laser shot.png'
 LZR_EYES = 'Sprites/laser eyes.png'
+ICON = 'Sprites/icon.png'
 
 # sounds
 BG_MUSIC = 'Sounds/background_sound.ogg'

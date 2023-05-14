@@ -83,8 +83,8 @@ screen = pygame.display.set_mode((sw_settings.screen_width, sw_settings.screen_h
 
 # Set name and icon
 pygame.display.set_caption("Space Wars")
-#icon = pygame.image.load('spaceship.png')
-#pygame.display.set_icon(icon)
+icon = pygame.image.load(ICON)
+pygame.display.set_icon(icon)
 
 # Stats
 stats = GameStats(sw_settings)
