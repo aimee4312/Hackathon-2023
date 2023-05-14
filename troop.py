@@ -26,6 +26,7 @@ class Troop(Sprite):
 
         # Movement flags.
         self.moving = True 
+        self.count = 0
         
         # initialize stats
         self.health = health
@@ -49,13 +50,12 @@ class Troop(Sprite):
         elif self.rect.left <= 0:
             return True
 
-    def update(self, enemy, attacking_list):
+    def update(self):
         # Update the troop's movement and existence
         self.blitme()
-        
-        if self.check_collisions(enemy):
-            self.moving = False
-            attacking_list.append(self)
+        # if self.check_collisions(enemy):
+        #     self.moving = False
+        #     attacking_list.append(self)
         if self.moving:
             self.rect.centerx += self.speed
         if self.health <= 0:
@@ -64,6 +64,7 @@ class Troop(Sprite):
     def blitme(self):
         # Draw the troop at its current location.
         self.screen.blit(self.image, self.rect)
+    
 
 # def deal_damage(user_attack_list, enemy_attack_list, user_list, enemy_list):
 #     user_target = max(user_list, key=lambda x: x.rect.centerx)

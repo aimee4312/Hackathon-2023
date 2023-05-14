@@ -1,26 +1,8 @@
 import pygame
+from time import sleep
 from pygame.sprite import Sprite
 from pygame import mixer
 from assets import *
-
-'''
-TO DO ->
-- add a range of fire and dmg
-- on space, activate the lasers (eyes and shooter)
-    - eyes disappear after 200ms and shooter travels
-    - on shooter collision with ground, trigger explosion, enemies in range will take dmg
-- add a cooldown to the laser
-- add laser shooting sound and explosion sound
-
-
-CURRENT STATUS ->
-- space button (doesnt work)
-'''
-
-
-
-
-
 
 # Tower class
 class Tower(Sprite):
@@ -93,4 +75,12 @@ class Laser(Sprite):
         mixer.music.load(TOWER_LASER)
         mixer.music.set_volume(1)
         mixer.music.play()
+    
+    def laser_explosion(self):
+        mixer.music.load(LZR_EXP)
+        mixer.music.set_volume(1)
+        mixer.music.play()
+    
+    def __del__(self):
+        print()
     

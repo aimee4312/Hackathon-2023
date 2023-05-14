@@ -1,4 +1,5 @@
 import pygame
+from time import sleep
 from pygame import mixer
 from pygame.locals import *
 
@@ -9,6 +10,7 @@ from tower import Tower
 from tower import Laser
 from game_stats import GameStats
 from button import Button
+from currency_display import CurrencyDisplay
 from constructors import *
 from assets import *
 
@@ -47,15 +49,15 @@ pygame.display.set_caption("Space Wars")
 
 # Stats
 stats = GameStats(sw_settings)
+currency_display = CurrencyDisplay(sw_settings, screen, stats)
 
 
 # Background
-background = pygame.image.load('Sprites/background.png')
+background = pygame.image.load(BG_IMG)
 
 # Background sound
-mixer.music.load('Sounds/background_sound.ogg')
-mixer.music.set_volume(6)
-mixer.music.play(-1)
+pygame.mixer.Channel(0).play(pygame.mixer.Sound(BG_MUSIC), loops = -1)
+pygame.mixer.Channel(0).set_volume(6)
 
 # Spawned Troops
 ally_troops = []
@@ -77,7 +79,6 @@ play_button = Button(screen, "Play")
 gameover = False
 running = True
 laser_use = True
-
 while running:
     
     screen.fill(sw_settings.bg_color)
@@ -89,6 +90,9 @@ while running:
 
     ship = Ship(sw_settings, screen)
     ship.blitme()
+
+    # Draw currency info
+    currency_display.show_currency()
 
     # Draw play button if inactive game
     if not stats.game_active:
@@ -102,21 +106,28 @@ while running:
         # Player Controls
         # Each button corresponds to a specific unit
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_1: # summon reg units
+            if event.key == pygame.K_c:
+                stats.currency += 100
+            if event.key == pygame.K_1 and stats.currency >= 10: # summon reg units
                 #make conditional if currency > cost
                 a = spawn_p_reg(sw_settings, screen)
                 ally_troops.append(a)
-                a.update()
-            if event.key == pygame.K_2: # summon  unit
+                stats.currency -= 25
+            if event.key == pygame.K_2 and stats.currency >= 20: # summon  unit
                 spawn_p_fast(sw_settings, screen)
-            if event.key == pygame.K_3: # summon stronk unit
+                stats.currency -= 75
+            if event.key == pygame.K_3 and stats.currency >= 40: # summon stronk unit
                 spawn_p_range(sw_settings, screen)
-            if event.key == pygame.K_4: # summon tank
+                stats.currency -= 200
+            if event.key == pygame.K_4 and stats.currency >= 80: # summon tank
                 spawn_p_tank(sw_settings, screen)
-            if event.key == pygame.K_SPACE: # summon laser (CURRENTLY DOESNT WORK)
+                stats.currency -= 150
+            if event.key == pygame.K_SPACE and stats.currency >= 400: # summon laser (CURRENTLY DOESNT WORK)
                 if laser_use == True:
                     laser.blitme()
                     laser.laser_sound()
+                    sleep(0.5)
+                    laser.laser_explosion()
                     laser_use = False
                 
         elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -125,6 +136,7 @@ while running:
 
         elif event.type == sw_settings.passive_income_event_id:
             stats.currency += stats.passive_income_rate
+            currency_display.prep_amount()
         
 
     
