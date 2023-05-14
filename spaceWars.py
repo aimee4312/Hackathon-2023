@@ -84,8 +84,8 @@ screen = pygame.display.set_mode((sw_settings.screen_width, sw_settings.screen_h
 
 # Set name and icon
 pygame.display.set_caption("Space Wars")
-icon = pygame.image.load(ICON)
-pygame.display.set_icon(icon)
+#icon = pygame.image.load(ICON)
+#pygame.display.set_icon(icon)
 
 # Stats
 stats = GameStats(sw_settings)
@@ -101,11 +101,11 @@ pygame.mixer.Channel(0).set_volume(6)
 # Time and Clock
 clock = pygame.time.Clock
 
-# Enemy Spawn AI
-enemy_ai = Enemy_ai()
-interval = enemy_ai.interval * 1000 # 1000 milliseconds = 1s
-nme_event_id = pygame.USEREVENT+1
-pygame.time.set_timer(nme_event_id, interval)
+# # Enemy Spawn AI
+# enemy_ai = Enemy_ai()
+# interval = enemy_ai.interval * 1000 # 1000 milliseconds = 1s
+# nme_event_id = pygame.USEREVENT
+# pygame.time.set_timer(nme_event_id, interval)
 
 # Spawned Troops
 ally_troops = []
@@ -137,7 +137,7 @@ ship_health_display = ValueDisplay(sw_settings, screen, stats, ship.health, sw_s
 # Play Button
 play_button = Button(screen, "Play")
 
-
+time = 1
 gameover = False
 running = True
 
@@ -162,6 +162,14 @@ while running:
     else:
         for button in spawn_buttons:
             button.blitme()
+
+    if enemy_troops:
+        target_enemy = min(enemy_troops, key=lambda x: x.rect.centerx)
+    else:
+        target_enemy = 0
+    if ally_troops:
+        target_user = max(ally_troops, key=lambda x: x.rect.centerx)
+    else: target_user = 0
     
 
     
@@ -200,31 +208,35 @@ while running:
                     laser.laser_explosion()
                     laser_use = False
         
-
-        # free money baybee
-        elif event.type == sw_settings.passive_income_event_id:
-            stats.currency += stats.passive_income_rate
-            currency_display.prep_amount()
-
-        # enemy spawn
-        elif event.type == nme_event_id:
-            e = enemy_ai.get_next_troop
-            enemy_troops.append(e)
+        # # enemy spawn
+        # elif event.type == nme_event_id:
+        #     e = enemy_ai.get_next_troop(sw_settings, screen)
+        #     enemy_troops.append(e)
         
         # click buttons        
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             _check_play_button(mouse_pos)
 
-<<<<<<< HEAD
         # free money baybee
         elif event.type == sw_settings.passive_income_event_id:
             stats.currency += stats.passive_income_rate
             currency_display.prep_amount()
-            if ally_attacking_troops or enemy_attacking_troops and target_enemy and target_user:
+            if time % 8 == 0:
+                a = spawn_np_reg(sw_settings, screen, sw_settings.range_cost / 2)
+                enemy_troops.append(a)
+            if time % 16 == 0:
+                a = spawn_np_fast(sw_settings, screen, sw_settings.range_cost / 2)
+                enemy_troops.append(a)
+            if time % 30 == 0:
+                a = spawn_np_tank(sw_settings, screen, sw_settings.range_cost / 2)
+                enemy_troops.append(a)
+            if time % 60 == 0:
+                a = spawn_np_range(sw_settings, screen, sw_settings.range_cost / 2)
+                enemy_troops.append(a)
+            time += 1
+            if (ally_attacking_troops or enemy_attacking_troops) and target_enemy and target_user:
                 ally_attacking_troops, enemy_attacking_troops, ally_troops, enemy_troops = deal_damage(ally_attacking_troops, enemy_attacking_troops, ally_troops, enemy_troops, target_user, target_enemy)
-=======
->>>>>>> d83a9a1094e162fd6e8ccf4796632281f7e20b0b
         
 
     
@@ -234,17 +246,7 @@ while running:
             ally_attacking_troops = troop.update(target_enemy, ally_attacking_troops)
         for troop in enemy_troops:
             enemy_attacking_troops = troop.update(target_user, enemy_attacking_troops)
-
             
-        # combat ai
-        if enemy_troops:
-            #target_enemy = min(enemy_troops, key=lambda x: x.rect.centerx)
-            print(target_enemy)
-        else:
-            target_enemy = 0
-        if ally_troops:
-            target_user = max(ally_troops, key=lambda x: x.rect.centerx)
-        else: target_user = 0  
                 
     
     pygame.display.flip()
