@@ -11,8 +11,8 @@ class CurrencyDisplay:
         self.stats = stats
 
         # Font settings
-        self.text_color = (255, 255, 255)
-        self.font = pygame.font.SysFont(None, 48)
+        self.text_color = (34, 227, 61)
+        self.font = pygame.font.SysFont('bahnschrift', 32)
 
         # Prep initial currency image
         self.prep_amount()
@@ -20,13 +20,13 @@ class CurrencyDisplay:
 
     def prep_amount(self):
         """Turn currency amount into rendered img"""
-        currency_str = str(self.stats.currency)
-        self.currency_image = self.font.render(currency_str, True, self.text_color, self.settings.bg_color)
+        currency_str = '$' + str(self.stats.currency)
+        self.currency_image = self.font.render(currency_str, True, self.text_color, (195, 195, 195))
 
         # Display score at bot left
         self.currency_rect = self.currency_image.get_rect()
         self.currency_rect.left = self.screen_rect.left + 20
-        self.currency_rect.bottom = 200
+        self.currency_rect.bottom = 595
 
     def show_currency(self):
         """Draw currency amount to screen"""

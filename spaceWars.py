@@ -84,8 +84,8 @@ screen = pygame.display.set_mode((sw_settings.screen_width, sw_settings.screen_h
 
 # Set name and icon
 pygame.display.set_caption("Space Wars")
-#icon = pygame.image.load('spaceship.png')
-#pygame.display.set_icon(icon)
+icon = pygame.image.load(ICON)
+pygame.display.set_icon(icon)
 
 # Stats
 stats = GameStats(sw_settings)
@@ -104,7 +104,7 @@ clock = pygame.time.Clock
 # Enemy Spawn AI
 enemy_ai = Enemy_ai()
 interval = enemy_ai.interval * 1000 # 1000 milliseconds = 1s
-nme_event_id = pygame.USEREVENT
+nme_event_id = pygame.USEREVENT+1
 pygame.time.set_timer(nme_event_id, interval)
 
 # Spawned Troops
@@ -131,8 +131,8 @@ lButton = spawnButtons(screen, sw_settings, "laser")
 spawn_buttons = [wButton, fButton, rButton, tButton]
 
 # Tower Health Displays
-tower_health_display = ValueDisplay(sw_settings, screen, stats, tower.health)
-ship_health_display = ValueDisplay(sw_settings, screen, stats, ship.health)
+tower_health_display = ValueDisplay(sw_settings, screen, stats, tower.health, sw_settings.tower_health_counter_x, sw_settings.tower_health_counter_y)
+ship_health_display = ValueDisplay(sw_settings, screen, stats, ship.health, sw_settings.ship_health_counter_x, sw_settings.ship_health_counter_y)
 
 # Play Button
 play_button = Button(screen, "Play")
@@ -151,6 +151,10 @@ while running:
     
     # Draw currency info
     currency_display.show_currency()
+
+    # Draw tower healths
+    tower_health_display.show_value()
+    ship_health_display.show_value()
 
     # Draw play button if inactive game
     if not stats.game_active:
@@ -196,6 +200,12 @@ while running:
                     laser.laser_explosion()
                     laser_use = False
         
+
+        # free money baybee
+        elif event.type == sw_settings.passive_income_event_id:
+            stats.currency += stats.passive_income_rate
+            currency_display.prep_amount()
+
         # enemy spawn
         elif event.type == nme_event_id:
             e = enemy_ai.get_next_troop
@@ -206,12 +216,15 @@ while running:
             mouse_pos = pygame.mouse.get_pos()
             _check_play_button(mouse_pos)
 
+<<<<<<< HEAD
         # free money baybee
         elif event.type == sw_settings.passive_income_event_id:
             stats.currency += stats.passive_income_rate
             currency_display.prep_amount()
             if ally_attacking_troops or enemy_attacking_troops and target_enemy and target_user:
                 ally_attacking_troops, enemy_attacking_troops, ally_troops, enemy_troops = deal_damage(ally_attacking_troops, enemy_attacking_troops, ally_troops, enemy_troops, target_user, target_enemy)
+=======
+>>>>>>> d83a9a1094e162fd6e8ccf4796632281f7e20b0b
         
 
     
