@@ -23,6 +23,7 @@ hard_qs = [hard_q1, hard_q2, hard_q3]
 class enemy_ai():
     def __init__(self, clock):
         self.clock = clock
+        self.wave = 1
         self.interval = 7
         self.stage = 1
         self.current_q = []
