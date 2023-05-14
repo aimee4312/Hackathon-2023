@@ -36,30 +36,64 @@ class spawnButtons(Sprite):
     def __init__(self, screen, type):
         self.screen = screen
         self.screen_rect = screen.get_rect()
-        self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
+        self.font = pygame.font.SysFont(None, 30)
+        self.text_color = (255, 255, 255)
+
+       
 
         match type:
             case "weak":
                 self.image = pygame.image.load(AW_BUTTON)
-                self.cost_msg("Cost: 25")
+                self.rect = self.image.get_rect()
+                width = self.image.get_rect().width
+                height = self.image.get_rect().height
+                self.image = pygame.transform.scale(self.image, (int(width * 0.5), int(height * 0.5)))
+                self.rect.x = 0
+                self.msgx = 10
+                self.msgy = 10
+                self.cost_msg("1. Cost: 25")
+                #self.cost_msg = self.font.render("Cost: 25", True, self.text_color)
             case "fast":
                 self.image = pygame.image.load(AF_BUTTON)
-                self.cost_msg("Cost: 50")
+                self.rect = self.image.get_rect()
+                width = self.image.get_rect().width
+                height = self.image.get_rect().height
+                self.image = pygame.transform.scale(self.image, (int(width * 0.5), int(height * 0.5)))
+                self.rect.x = 130
+                self.msgx = 140
+                self.msgy = 10
+                self.cost_msg("2. Cost: 50")
+                #self.cost_msg = self.font.render("Cost: 25", True, self.text_color)
             case "ranged":
                 self.image = pygame.image.load(AR_BUTTON)
-                self.cost_msg("Cost: 75")
+                self.rect = self.image.get_rect()
+                width = self.image.get_rect().width
+                height = self.image.get_rect().height
+                self.image = pygame.transform.scale(self.image, (int(width * 0.5), int(height * 0.5)))
+                self.rect.x = 260
+                self.msgx = 270
+                self.msgy = 10
+                self.cost_msg("3. Cost: 75")
+                #self.cost_msg = self.font.render("Cost: 25", True, self.text_color)
             case "tank":
                 self.image = pygame.image.load(AT_BUTTON)
-                self.cost_msg("Cost: 100")
+                self.rect = self.image.get_rect()
+                width = self.image.get_rect().width
+                height = self.image.get_rect().height
+                self.image = pygame.transform.scale(self.image, (int(width * 0.5), int(height * 0.5)))
+                self.rect.x = 390
+                self.msgx = 400
+                self.msgy = 10
+                self.cost_msg("4. Cost: 100")
+                #self.cost_msg = self.font.render("Cost: 25", True, self.text_color)
     
     def cost_msg(self, msg):
-        self.msg_image = self.font.render(msg, True, self.text_color, self.button_color)
-        self.msg_image_rect = self.msg_image.get_rect()
-        self.msg_image_rect.center = self.rect.center
+        self.cost = self.font.render(msg, True, (0,0,0))
     
     def blitme(self):
         self.screen.blit(self.image, self.rect)
+        self.screen.blit(self.cost, (self.msgx, self.msgy))
 
         
 
