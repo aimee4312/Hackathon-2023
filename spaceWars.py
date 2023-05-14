@@ -3,14 +3,17 @@ from time import sleep
 from pygame import mixer
 from pygame.locals import *
 
+
 from settings import Settings
 from troop import Troop
 from tower import Ship
 from tower import Tower
 from tower import Laser
+from computer_play import enemy_ai
 from game_stats import GameStats
 from button import Button
 from currency_display import CurrencyDisplay
+from value_display import ValueDisplay
 from constructors import *
 from assets import *
 
@@ -51,7 +54,6 @@ pygame.display.set_caption("Space Wars")
 stats = GameStats(sw_settings)
 currency_display = CurrencyDisplay(sw_settings, screen, stats)
 
-
 # Background
 background = pygame.image.load(BG_IMG)
 
@@ -72,6 +74,10 @@ enemy_attacking_troops = []
 
 #test_troop = Troop(sw_settings, screen)
 
+laser = Laser(sw_settings, screen)
+tower = Tower(sw_settings, screen)
+ship = Ship(sw_settings, screen)
+
 
 # Play Button
 play_button = Button(screen, "Play")
@@ -85,11 +91,7 @@ while running:
     screen.fill(sw_settings.bg_color)
     screen.blit(background, (0, 0))
 
-    laser = Laser(sw_settings, screen)
-    tower = Tower(sw_settings, screen)
     tower.blitme()
-
-    ship = Ship(sw_settings, screen)
     ship.blitme()
 
     # Draw currency info
@@ -98,15 +100,6 @@ while running:
     # Draw play button if inactive game
     if not stats.game_active:
         play_button.draw_button()
-
-    if enemy_troops:
-        target_enemy = min(enemy_troops, key=lambda x: x.rect.centerx)
-        print(target_enemy)
-    else:
-        target_enemy = 0
-    if ally_troops:
-        target_user = max(ally_troops, key=lambda x: x.rect.centerx)
-    else: target_user = 0
     
     for event in pygame.event.get():
         # close the game when close button is clicked
@@ -153,12 +146,23 @@ while running:
 
     
     if not gameover:
-        # game stuff           
+        # update state of troops          
         for troop in ally_troops:
             ally_attacking_troops = troop.update(target_enemy, ally_attacking_troops)
         for troop in enemy_troops:
             enemy_attacking_troops = troop.update(target_user, enemy_attacking_troops)
             
+        # combat ai
+        if enemy_troops:
+            target_enemy = min(enemy_troops, key=lambda x: x.rect.centerx)
+            print(target_enemy)
+        else:
+            target_enemy = 0
+        if ally_troops:
+            target_user = max(ally_troops, key=lambda x: x.rect.centerx)
+        else: target_user = 0  
+        
+        # handle enemy spawns
     
     
     pygame.display.flip()

@@ -59,7 +59,7 @@ class Troop(Sprite):
 
     def update(self, enemy, attacking_list):
         # Update the troop's movement and existence
-        self.blitme()
+        self.screen.blit(self.image, self.rect)
         print(enemy)# if enemy and self.check_collisions(enemy):
         #     self.moving = False
         #     attacking_list.append(self)
@@ -67,11 +67,6 @@ class Troop(Sprite):
         if self.moving:
             self.rect.centerx += self.speed
 
-
-    def blitme(self):
-        # Draw the troop at its current location.
-        self.screen.blit(self.image, self.rect)
-    
 
 # def deal_damage(user_attack_list, enemy_attack_list, user_list, enemy_list):
 #     user_target = max(user_list, key=lambda x: x.rect.centerx)

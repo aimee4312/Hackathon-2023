@@ -3,12 +3,14 @@
 
 A_WEAK = 'Sprites/weak ally.png'
 A_FAST = 'Sprites/fast ally.png'
-
-
 A_RANGE = 'Sprites/ranged ally.png'
-
-
 A_TANK = 'Sprites/tank ally.png'
+
+AW_BUTTON = 'Sprites/weak button.png'
+AF_BUTTON = 'Sprites/fast button.png'
+AR_BUTTON = 'Sprites/ranged button.png'
+AT_BUTTON = 'Sprites/tank button.png'
+
 
 E_WEAK = 'Sprites/weak enemy.png'
 E_FAST = 'Sprites/fast enemy.png'
