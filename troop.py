@@ -28,6 +28,7 @@ class Troop(Sprite):
         self.moving = True 
         
         # initialize stats
+        self.isPlayer = isPlayer
         self.health = health
         self.speed = speed
         self.dps = dps
@@ -38,7 +39,11 @@ class Troop(Sprite):
     
     def check_collisions(self, enemy):
         rad = self.rect.centerx + self.range
-        return (rad - enemy.rect.centerx) <= 0
+        print(enemy.rect.centerx)
+        if self.isPlayer:
+            return (rad - enemy.rect.centerx) >= 0
+        else:
+            return (rad - enemy.rect.centerx) <= 0
     
     def check_edges(self):
         screen_rect = self.screen.get_rect()
@@ -52,14 +57,14 @@ class Troop(Sprite):
     def update(self, enemy, attacking_list):
         # Update the troop's movement and existence
         self.blitme()
-        
-        if self.check_collisions(enemy):
+        print(enemy)
+        if enemy and self.check_collisions(enemy):
             self.moving = False
             attacking_list.append(self)
+
         if self.moving:
             self.rect.centerx += self.speed
-        if self.health <= 0:
-            self.kill
+
 
     def blitme(self):
         # Draw the troop at its current location.
