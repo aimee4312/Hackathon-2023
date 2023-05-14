@@ -117,20 +117,23 @@ while running:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_c:
                 stats.currency += 100
-            if event.key == pygame.K_1 and stats.currency >= 10: # summon reg units
+            if event.key == pygame.K_1 and stats.currency >= 25: # summon reg units
                 #make conditional if currency > cost
                 a = spawn_p_reg(sw_settings, screen)
                 ally_troops.append(a)
                 stats.currency -= 25
-            if event.key == pygame.K_2 and stats.currency >= 20: # summon  unit
-                spawn_p_fast(sw_settings, screen)
+            if event.key == pygame.K_2 and stats.currency >= 50: # summon unit
+                a = spawn_p_fast(sw_settings, screen)
+                ally_troops.append(a)
+                stats.currency -= 50
+            if event.key == pygame.K_3 and stats.currency >= 75: # summon stronk unit
+                a = spawn_p_range(sw_settings, screen)
+                ally_troops.append(a)
                 stats.currency -= 75
-            if event.key == pygame.K_3 and stats.currency >= 40: # summon stronk unit
-                spawn_p_range(sw_settings, screen)
-                stats.currency -= 200
-            if event.key == pygame.K_4 and stats.currency >= 80: # summon tank
-                spawn_p_tank(sw_settings, screen)
-                stats.currency -= 150
+            if event.key == pygame.K_4 and stats.currency >= 100: # summon tank
+                a = spawn_p_tank(sw_settings, screen)
+                ally_troops.append(a)
+                stats.currency -= 100
             if event.key == pygame.K_SPACE and stats.currency >= 400: # summon laser (CURRENTLY DOESNT WORK)
                 if laser_use == True:
                     laser.blitme()

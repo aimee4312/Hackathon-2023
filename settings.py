@@ -17,6 +17,10 @@ class Settings:
 
         # # Alien settings.
         # self.fleet_drop_speed = 10
+        self.reg_cost = 25
+        self.fast_cost = 50
+        self.range_cost = 75
+        self.tank_cost = 100
 
         # # How quickly the game speeds up.
         # self.speedup_scale = 1.1
