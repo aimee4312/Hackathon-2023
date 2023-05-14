@@ -16,6 +16,7 @@ from currency_display import CurrencyDisplay
 from value_display import ValueDisplay
 from constructors import *
 from assets import *
+from troop import deal_damage
 
 laser_use = True
 def _check_play_button(mouse_pos):
@@ -209,6 +210,8 @@ while running:
         elif event.type == sw_settings.passive_income_event_id:
             stats.currency += stats.passive_income_rate
             currency_display.prep_amount()
+            if ally_attacking_troops or enemy_attacking_troops and target_enemy and target_user:
+                ally_attacking_troops, enemy_attacking_troops, ally_troops, enemy_troops = deal_damage(ally_attacking_troops, enemy_attacking_troops, ally_troops, enemy_troops, target_user, target_enemy)
         
 
     
@@ -217,8 +220,8 @@ while running:
         for troop in ally_troops:
             ally_attacking_troops = troop.update(target_enemy, ally_attacking_troops)
         for troop in enemy_troops:
-            pass
-            #enemy_attacking_troops = troop.update(target_user, enemy_attacking_troops)
+            enemy_attacking_troops = troop.update(target_user, enemy_attacking_troops)
+
             
         # combat ai
         if enemy_troops:

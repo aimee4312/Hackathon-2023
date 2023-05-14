@@ -48,7 +48,6 @@ class Troop(Sprite):
     
     def check_collisions(self, enemy):
         rad = self.rect.centerx + self.range
-        print(enemy.rect.centerx)
         if self.isPlayer:
             return (rad - enemy.rect.centerx) >= 0
         else:
@@ -65,20 +64,34 @@ class Troop(Sprite):
 
     def update(self, enemy, attacking_list):
         # Update the troop's movement and existence
-        self.screen.blit(self.image, self.rect)
-        print(enemy)# if enemy and self.check_collisions(enemy):
-        #     self.moving = False
-        #     attacking_list.append(self)
-
-        if self.moving:
+        self.blitme()
+        if enemy and self.check_collisions(enemy):
+            if self.moving:
+                attacking_list.append(self)
+                self.moving = False
+        else:
             self.rect.centerx += self.speed
+        return attacking_list
 
 
-# def deal_damage(user_attack_list, enemy_attack_list, user_list, enemy_list):
-#     user_target = max(user_list, key=lambda x: x.rect.centerx)
-#     enemy_target = min(enemy_list, key=lambda x: x.rect.centerx)
-#     user_damage_total = sum(troop.dps for troop in user_attack_list)
-#     enemy_damage_total = sum(troop.dps for troop in enemy_attack_list)
-#     user_target.health -= enemy_damage_total
-#     enemy_target.health -= user_damage_total
-#     if user_target.health <= 0:
+    def blitme(self):
+        # Draw the troop at its current location.
+        self.screen.blit(self.image, self.rect)
+    
+
+def deal_damage(user_attack_list, enemy_attack_list, user_list, enemy_list, user_target, enemy_target):
+    user_damage_total = 0
+    for troop in user_attack_list:
+        user_damage_total += troop.dps
+    enemy_damage_total = sum(troop.dps for troop in enemy_attack_list)
+    user_target.health -= enemy_damage_total
+    enemy_target.health -= user_damage_total
+    if user_target.health <= 0:
+        if user_target in user_attack_list:
+            user_attack_list.remove(user_target)
+        user_list.remove(user_target)
+    if enemy_target.health <= 0:
+        if enemy_target in enemy_attack_list:
+            enemy_attack_list.remove(enemy_target)
+        enemy_list.remove(enemy_target)
+    return user_attack_list, enemy_attack_list, user_list, enemy_list
