@@ -53,7 +53,6 @@ class spawnButtons(Sprite):
                 self.msgx = 10
                 self.msgy = 10
                 self.cost_msg("1. Cost: 25")
-                #self.cost_msg = self.font.render("Cost: 25", True, self.text_color)
             case "fast":
                 self.image = pygame.image.load(AF_BUTTON)
                 self.rect = self.image.get_rect()
@@ -64,7 +63,6 @@ class spawnButtons(Sprite):
                 self.msgx = 140
                 self.msgy = 10
                 self.cost_msg("2. Cost: 50")
-                #self.cost_msg = self.font.render("Cost: 25", True, self.text_color)
             case "ranged":
                 self.image = pygame.image.load(AR_BUTTON)
                 self.rect = self.image.get_rect()
@@ -75,7 +73,6 @@ class spawnButtons(Sprite):
                 self.msgx = 270
                 self.msgy = 10
                 self.cost_msg("3. Cost: 75")
-                #self.cost_msg = self.font.render("Cost: 25", True, self.text_color)
             case "tank":
                 self.image = pygame.image.load(AT_BUTTON)
                 self.rect = self.image.get_rect()
@@ -86,7 +83,6 @@ class spawnButtons(Sprite):
                 self.msgx = 400
                 self.msgy = 10
                 self.cost_msg("4. Cost: 100")
-                #self.cost_msg = self.font.render("Cost: 25", True, self.text_color)
     
     def cost_msg(self, msg):
         self.cost = self.font.render(msg, True, (0,0,0))

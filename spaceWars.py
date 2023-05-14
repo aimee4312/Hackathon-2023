@@ -22,10 +22,16 @@ from assets import *
 def _check_play_button(mouse_pos):
     """Start new game when player clicks Play"""
     play_button_clicked = play_button.rect.collidepoint(mouse_pos)
-    aw_button_clicked = wButton.rect.collidepoint(mouse_pos)
-    af_button_clicked = fButton.rect.collidepoint(mouse_pos)
-    ar_button_clicked = rButton.rect.collidepoint(mouse_pos)
-    at_button_clicked = tButton.rect.collidepoint(mouse_pos)
+
+    wcollision_rect = wButton.rect.inflate(-150, -150)
+    fcollision_rect = fButton.rect.inflate(-150, -150)
+    rcollision_rect = rButton.rect.inflate(-150, -150)
+    tcollision_rect = tButton.rect.inflate(-150, -150)
+    
+    aw_button_clicked = wcollision_rect.collidepoint(mouse_pos)
+    af_button_clicked = fcollision_rect.collidepoint(mouse_pos)
+    ar_button_clicked = rcollision_rect.collidepoint(mouse_pos)
+    at_button_clicked = tcollision_rect.collidepoint(mouse_pos)
     if play_button_clicked and not stats.game_active:
         # Reset stats
         stats.reset_stats()
