@@ -12,7 +12,7 @@ class CurrencyDisplay:
 
         # Font settings
         self.text_color = (34, 227, 61)
-        self.font = pygame.font.SysFont(None, 48)
+        self.font = pygame.font.SysFont('bahnschrift', 32)
 
         # Prep initial currency image
         self.prep_amount()
