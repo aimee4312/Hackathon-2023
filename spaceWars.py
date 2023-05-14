@@ -153,11 +153,13 @@ while running:
         
 
     if not gameover:
-        # game stuff           
-        for troop in ally_troops:
-            ally_attacking_troops = troop.update(target_enemy, ally_attacking_troops)
-        for troop in enemy_troops:
-            enemy_attacking_troops = troop.update(target_user, enemy_attacking_troops)
+        # game stuff
+        if ally_troops:           
+            for troop in ally_troops:
+                ally_attacking_troops = troop.update(target_enemy, ally_attacking_troops)
+        if enemy_troops:  
+            for troop in enemy_troops:
+                enemy_attacking_troops = troop.update(target_user, enemy_attacking_troops)
 
             
     
