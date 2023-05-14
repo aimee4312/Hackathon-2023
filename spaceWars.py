@@ -130,8 +130,8 @@ lButton = spawnButtons(screen, sw_settings, "laser")
 spawn_buttons = [wButton, fButton, rButton, tButton]
 
 # Tower Health Displays
-tower_health_display = ValueDisplay(sw_settings, screen, stats, tower.health)
-ship_health_display = ValueDisplay(sw_settings, screen, stats, ship.health)
+tower_health_display = ValueDisplay(sw_settings, screen, stats, tower.health, sw_settings.tower_health_counter_x, sw_settings.tower_health_counter_y)
+ship_health_display = ValueDisplay(sw_settings, screen, stats, ship.health, sw_settings.ship_health_counter_x, sw_settings.ship_health_counter_y)
 
 # Play Button
 play_button = Button(screen, "Play")
@@ -150,6 +150,10 @@ while running:
     
     # Draw currency info
     currency_display.show_currency()
+
+    # Draw tower healths
+    tower_health_display.show_value()
+    ship_health_display.show_value()
 
     # Draw play button if inactive game
     if not stats.game_active:
