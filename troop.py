@@ -40,7 +40,6 @@ class Troop(Sprite):
     
     def check_collisions(self, enemy):
         rad = self.rect.centerx + self.range
-        print(enemy.rect.centerx)
         if self.isPlayer:
             return (rad - enemy.rect.centerx) >= 0
         else:
@@ -58,12 +57,14 @@ class Troop(Sprite):
     def update(self, enemy, attacking_list):
         # Update the troop's movement and existence
         self.blitme()
-        print(enemy)# if enemy and self.check_collisions(enemy):
-        #     self.moving = False
-        #     attacking_list.append(self)
+        if enemy and self.check_collisions(enemy):
+            self.moving = False
+            attacking_list.append(self)
 
         if self.moving:
             self.rect.centerx += self.speed
+        
+        return attacking_list
 
 
     def blitme(self):
@@ -71,11 +72,17 @@ class Troop(Sprite):
         self.screen.blit(self.image, self.rect)
     
 
-# def deal_damage(user_attack_list, enemy_attack_list, user_list, enemy_list):
-#     user_target = max(user_list, key=lambda x: x.rect.centerx)
-#     enemy_target = min(enemy_list, key=lambda x: x.rect.centerx)
-#     user_damage_total = sum(troop.dps for troop in user_attack_list)
-#     enemy_damage_total = sum(troop.dps for troop in enemy_attack_list)
-#     user_target.health -= enemy_damage_total
-#     enemy_target.health -= user_damage_total
-#     if user_target.health <= 0:
+def deal_damage(user_attack_list, enemy_attack_list, user_list, enemy_list, user_target, enemy_target):
+    user_damage_total = sum(troop.dps for troop in user_attack_list)
+    enemy_damage_total = sum(troop.dps for troop in enemy_attack_list)
+    user_target.health -= enemy_damage_total
+    enemy_target.health -= user_damage_total
+    if user_target.health <= 0:
+        if user_target in user_attack_list:
+            user_attack_list.remove(user_target)
+        user_target.kill()
+        user_list.remove(user_target)
+    if user_target.health <= 0:
+        if user_target in user_attack_list:
+            user_attack_list.remove(user_target)
+        user_list.remove(user_target)

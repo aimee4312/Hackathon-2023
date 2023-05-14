@@ -101,7 +101,6 @@ while running:
 
     if enemy_troops:
         target_enemy = min(enemy_troops, key=lambda x: x.rect.centerx)
-        print(target_enemy)
     else:
         target_enemy = 0
     if ally_troops:
@@ -123,7 +122,8 @@ while running:
                 ally_troops.append(a)
                 stats.currency -= 25
             if event.key == pygame.K_2 and stats.currency >= 20: # summon  unit
-                spawn_p_fast(sw_settings, screen)
+                a = spawn_np_reg(sw_settings, screen)
+                enemy_troops.append(a)
                 stats.currency -= 75
             if event.key == pygame.K_3 and stats.currency >= 40: # summon stronk unit
                 spawn_p_range(sw_settings, screen)
@@ -154,6 +154,7 @@ while running:
             ally_attacking_troops = troop.update(target_enemy, ally_attacking_troops)
         for troop in enemy_troops:
             enemy_attacking_troops = troop.update(target_user, enemy_attacking_troops)
+
             
     
     
