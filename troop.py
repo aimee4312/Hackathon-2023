@@ -82,7 +82,8 @@ def deal_damage(user_attack_list, enemy_attack_list, user_list, enemy_list, user
             user_attack_list.remove(user_target)
         user_target.kill()
         user_list.remove(user_target)
-    if user_target.health <= 0:
-        if user_target in user_attack_list:
-            user_attack_list.remove(user_target)
-        user_list.remove(user_target)
+    if enemy_target.health <= 0:
+        if enemy_target in enemy_attack_list:
+            enemy_attack_list.remove(enemy_target)
+        
+        user_list.remove(enemy_target)
