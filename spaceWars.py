@@ -103,7 +103,7 @@ clock = pygame.time.Clock
 # Enemy Spawn AI
 enemy_ai = Enemy_ai()
 interval = enemy_ai.interval * 1000 # 1000 milliseconds = 1s
-nme_event_id = pygame.USEREVENT
+nme_event_id = pygame.USEREVENT+1
 pygame.time.set_timer(nme_event_id, interval)
 
 # Spawned Troops
@@ -195,6 +195,12 @@ while running:
                     laser.laser_explosion()
                     laser_use = False
         
+
+        # free money baybee
+        elif event.type == sw_settings.passive_income_event_id:
+            stats.currency += stats.passive_income_rate
+            currency_display.prep_amount()
+
         # enemy spawn
         elif event.type == nme_event_id:
             e = enemy_ai.get_next_troop
@@ -205,10 +211,6 @@ while running:
             mouse_pos = pygame.mouse.get_pos()
             _check_play_button(mouse_pos)
 
-        # free money baybee
-        elif event.type == sw_settings.passive_income_event_id:
-            stats.currency += stats.passive_income_rate
-            currency_display.prep_amount()
         
 
     
