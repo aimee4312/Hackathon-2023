@@ -22,6 +22,10 @@ class Settings:
         self.range_cost = 75
         self.tank_cost = 100
 
+
+        
+        Dict = {'reg': 15, 'fast': 4, 'ranged': 3, 'tank': 2}
+
         # # How quickly the game speeds up.
         # self.speedup_scale = 1.1
         # # How quickly the alien point values increase.

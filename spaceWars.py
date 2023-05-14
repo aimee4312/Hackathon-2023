@@ -99,7 +99,15 @@ while running:
     if not stats.game_active:
         play_button.draw_button()
 
- 
+    if enemy_troops:
+        target_enemy = min(enemy_troops, key=lambda x: x.rect.centerx)
+        print(target_enemy)
+    else:
+        target_enemy = 0
+    if ally_troops:
+        target_user = max(ally_troops, key=lambda x: x.rect.centerx)
+    else: target_user = 0
+    
     for event in pygame.event.get():
         # close the game when close button is clicked
         if event.type == pygame.QUIT:
@@ -147,9 +155,9 @@ while running:
     if not gameover:
         # game stuff           
         for troop in ally_troops:
-            troop.update()
+            ally_attacking_troops = troop.update(target_enemy, ally_attacking_troops)
         for troop in enemy_troops:
-            troop.update()
+            enemy_attacking_troops = troop.update(target_user, enemy_attacking_troops)
             
     
     

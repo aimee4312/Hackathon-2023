@@ -1,7 +1,13 @@
 # images
+
+
 A_WEAK = 'Sprites/weak ally.png'
 A_FAST = 'Sprites/fast ally.png'
+
+
 A_RANGE = 'Sprites/ranged ally.png'
+
+
 A_TANK = 'Sprites/tank ally.png'
 
 E_WEAK = 'Sprites/weak enemy.png'

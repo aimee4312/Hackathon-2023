@@ -12,10 +12,6 @@ class Troop(Sprite):
 
         # Load the troop image, and get its rect.
         self.image = pygame.image.load(image)
-        width = self.image.get_rect().width
-        height = self.image.get_rect().height
-        if self.image == A_RANGE:
-            self.image = pygame.transform.scale(self.image, (int(width * 0.2), int(height * 0.2)))
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
 
