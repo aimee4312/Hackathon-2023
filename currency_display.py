@@ -23,10 +23,10 @@ class CurrencyDisplay:
         currency_str = str(self.stats.currency)
         self.currency_image = self.font.render(currency_str, True, self.text_color, self.settings.bg_color)
 
-        # Display score at top left
+        # Display score at bot left
         self.currency_rect = self.currency_image.get_rect()
         self.currency_rect.left = self.screen_rect.left + 20
-        self.currency_rect.top = 20
+        self.currency_rect.bottom = 20
 
     def show_currency(self):
         """Draw currency amount to screen"""

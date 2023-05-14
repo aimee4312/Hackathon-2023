@@ -5,14 +5,13 @@ from pygame.locals import *
 
 
 from settings import Settings
-from troop import Troop
 from tower import Ship
 from tower import Tower
 from tower import Laser
-from computer_play import enemy_ai
+from computer_play import Enemy_ai
 from game_stats import GameStats
 from button import Button
-from button import spawnButtons
+# from button import spawnButtons
 from currency_display import CurrencyDisplay
 from value_display import ValueDisplay
 from constructors import *
@@ -29,8 +28,8 @@ def _check_play_button(mouse_pos):
 
         # TODO: get rid of troops and create new aliens?
 
-        # Hides mouse cursor
-        pygame.mouse.set_visible(False)
+        # # Hides mouse cursor
+        # pygame.mouse.set_visible(False)
         
         # Sets passive income generation timer
         pygame.time.set_timer(sw_settings.passive_income_event_id, sw_settings.passive_income_interval)
@@ -66,7 +65,10 @@ pygame.mixer.Channel(0).set_volume(6)
 clock = pygame.time.Clock
 
 # Enemy Spawn AI
-enemy_ai = Enemy_ai(clock)
+enemy_ai = Enemy_ai()
+interval = enemy_ai.interval * 1000 # 1000 milliseconds = 1s
+nme_event_id = pygame.USEREVENT
+pygame.time.set_timer(nme_event_id, interval)
 
 # Spawned Troops
 ally_troops = []
@@ -82,15 +84,16 @@ tower = Tower(sw_settings, screen)
 ship = Ship(sw_settings, screen)
 
 # Spawn Buttons
-wButton = spawnButtons(screen, "weak")
-fButton = spawnButtons(screen, "fast")
-rButton = spawnButtons(screen, "ranged")
-tButton = spawnButtons(screen, "tank")
+# wButton = spawnButtons(screen, "weak")
+# fButton = spawnButtons(screen, "fast")
+# rButton = spawnButtons(screen, "ranged")
+# tButton = spawnButtons(screen, "tank")
 
-spawn_buttons = [wButton, fButton, rButton, tButton]
+# spawn_buttons = [wButton, fButton, rButton, tButton]
 
-tower_health_display = ValueDisplay(sw_settings, screen, stats, tower)
-
+# Tower Health Displays
+tower_health_display = ValueDisplay(sw_settings, screen, stats, tower.health)
+ship_health_display = ValueDisplay(sw_settings, screen, stats, ship.health)
 
 # Play Button
 play_button = Button(screen, "Play")
@@ -106,8 +109,6 @@ while running:
 
     tower.blitme()
     ship.blitme()
-
-    clock.tick(60)
     
     # Draw currency info
     currency_display.show_currency()
@@ -129,30 +130,35 @@ while running:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_c:
                 stats.currency += 100
-            if event.key == pygame.K_1 and stats.currency >= 25: # summon reg units
+            if event.key == pygame.K_1 and stats.currency >= sw_settings.reg_cost: # summon reg units
                 #make conditional if currency > cost
                 a = spawn_p_reg(sw_settings, screen, sw_settings.reg_cost / 2)
                 ally_troops.append(a)
                 stats.currency -= sw_settings.reg_cost
-            if event.key == pygame.K_2 and stats.currency >= 50: # summon unit
+            if event.key == pygame.K_2 and stats.currency >= sw_settings.fast_cost: # summon unit
                 a = spawn_p_fast(sw_settings, screen, sw_settings.fast_cost / 2)
                 ally_troops.append(a)
                 stats.currency -= sw_settings.fast_cost
-            if event.key == pygame.K_3 and stats.currency >= 75: # summon stronk unit
+            if event.key == pygame.K_3 and stats.currency >= sw_settings.range_cost: # summon stronk unit
                 a = spawn_p_range(sw_settings, screen, sw_settings.range_cost / 2)
                 ally_troops.append(a)
                 stats.currency -= sw_settings.range_cost
-            if event.key == pygame.K_4 and stats.currency >= 100: # summon tank
+            if event.key == pygame.K_4 and stats.currency >= sw_settings.tank_cost: # summon tank
                 a = spawn_p_tank(sw_settings, screen, sw_settings.tank_cost / 2)
                 ally_troops.append(a)
                 stats.currency -= sw_settings.tank_cost
-            if event.key == pygame.K_SPACE and stats.currency >= 400: # summon laser (CURRENTLY DOESNT WORK)
+            if event.key == pygame.K_SPACE and stats.currency >= sw_settings.laser_cost: # summon laser (CURRENTLY DOESNT WORK)
                 if laser_use == True:
                     laser.blitme()
                     laser.laser_sound()
                     sleep(0.5)
                     laser.laser_explosion()
                     laser_use = False
+        
+        elif event.type == nme_event_id:
+            e = enemy_ai.get_next_troop
+            e.update()
+            enemy_troops.append(e)
                 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
@@ -180,9 +186,7 @@ while running:
         if ally_troops:
             target_user = max(ally_troops, key=lambda x: x.rect.centerx)
         else: target_user = 0  
-        
-        # handle enemy spawns
-    
+                
     
     pygame.display.flip()
     #pygame.display.update()
