@@ -11,6 +11,6 @@ You are currently on the moon and your home gets invaded by aliens. Spawn troops
 - Space: Tower laser
 
 **How to run the game**
-- 1. Download our files
-- 2. Run "python3 spaceWars.py"
+- 1. Clone our repo
+- 2. Run "python3 spaceWars.py" in IDE
 - 3. Press play!
