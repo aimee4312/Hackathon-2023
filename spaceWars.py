@@ -9,19 +9,24 @@ from tower import Ship
 from tower import Tower
 from tower import Laser
 from computer_play import Enemy_ai
+from computer_play import Enemy_ai
 from game_stats import GameStats
 from button import Button
 # from button import spawnButtons
 from currency_display import CurrencyDisplay
-from value_display import ValueDisplay
+#from value_display import ValueDisplay
 from constructors import *
 from assets import *
 
 
 def _check_play_button(mouse_pos):
     """Start new game when player clicks Play"""
-    button_clicked = play_button.rect.collidepoint(mouse_pos)
-    if button_clicked and not stats.game_active:
+    play_button_clicked = play_button.rect.collidepoint(mouse_pos)
+    aw_button_clicked = wButton.rect.collidepoint(mouse_pos)
+    af_button_clicked = fButton.rect.collidepoint(mouse_pos)
+    ar_button_clicked = rButton.rect.collidepoint(mouse_pos)
+    at_button_clicked = tButton.rect.collidepoint(mouse_pos)
+    if play_button_clicked and not stats.game_active:
         # Reset stats
         stats.reset_stats()
         stats.game_active = True
@@ -29,10 +34,26 @@ def _check_play_button(mouse_pos):
         # TODO: get rid of troops and create new aliens?
 
         # # Hides mouse cursor
-        # pygame.mouse.set_visible(False)
+        # # pygame.mouse.set_visible(False)
         
         # Sets passive income generation timer
         pygame.time.set_timer(sw_settings.passive_income_event_id, sw_settings.passive_income_interval)
+    elif aw_button_clicked and stats.currency >= 25:
+        a = spawn_p_reg(sw_settings, screen, sw_settings.reg_cost / 2)
+        ally_troops.append(a)
+        stats.currency -= sw_settings.reg_cost
+    elif af_button_clicked and stats.currency >= 50:
+        a = spawn_p_fast(sw_settings, screen, sw_settings.fast_cost / 2)
+        ally_troops.append(a)
+        stats.currency -= sw_settings.fast_cost
+    elif ar_button_clicked and stats.currency >= 75:
+        a = spawn_p_range(sw_settings, screen, sw_settings.range_cost / 2)
+        ally_troops.append(a)
+        stats.currency -= sw_settings.range_cost
+    elif at_button_clicked and stats.currency >= 100:
+        a = spawn_p_tank(sw_settings, screen, sw_settings.tank_cost / 2)
+        ally_troops.append(a)
+        stats.currency -= sw_settings.tank_cost
 
 
 # def run_game():
@@ -92,7 +113,7 @@ ship = Ship(sw_settings, screen)
 # spawn_buttons = [wButton, fButton, rButton, tButton]
 
 # Tower Health Displays
-tower_health_display = ValueDisplay(sw_settings, screen, stats, tower.health)
+#tower_health_display = ValueDisplay(sw_settings, screen, stats, tower.health)
 ship_health_display = ValueDisplay(sw_settings, screen, stats, ship.health)
 
 # Play Button
