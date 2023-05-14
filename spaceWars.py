@@ -3,7 +3,6 @@ from time import sleep
 from pygame import mixer
 from pygame.locals import *
 
-
 from settings import Settings
 from tower import Ship
 from tower import Tower
@@ -121,12 +120,13 @@ tower = Tower(sw_settings, screen)
 ship = Ship(sw_settings, screen)
 
 # Spawn Buttons
-wButton = spawnButtons(screen, "weak")
-fButton = spawnButtons(screen, "fast")
-rButton = spawnButtons(screen, "ranged")
-tButton = spawnButtons(screen, "tank")
-lButton = spawnButtons(screen, "laser")
+wButton = spawnButtons(screen, sw_settings, "weak")
+fButton = spawnButtons(screen, sw_settings, "fast")
+rButton = spawnButtons(screen, sw_settings, "ranged")
+tButton = spawnButtons(screen, sw_settings, "tank")
+lButton = spawnButtons(screen, sw_settings, "laser")
 
+# List of spawn buttons for my convenience
 spawn_buttons = [wButton, fButton, rButton, tButton]
 
 # Tower Health Displays

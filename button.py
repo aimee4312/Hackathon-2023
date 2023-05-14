@@ -33,7 +33,7 @@ class Button:
         self.screen.blit(self.msg_image, self.msg_image_rect)
 
 class spawnButtons(Sprite):
-    def __init__(self, screen, type):
+    def __init__(self, screen, sw_settings ,type):
         self.screen = screen
         self.screen_rect = screen.get_rect()
         self.screen_rect = screen.get_rect()
@@ -52,7 +52,7 @@ class spawnButtons(Sprite):
                 self.rect.x = 0
                 self.msgx = 10
                 self.msgy = 10
-                self.cost_msg("1. Cost: 25")
+                self.cost_msg("1. Cost: " + str(sw_settings.reg_cost))
             case "fast":
                 self.image = pygame.image.load(AF_BUTTON)
                 self.rect = self.image.get_rect()
@@ -62,7 +62,7 @@ class spawnButtons(Sprite):
                 self.rect.x = 130
                 self.msgx = 140
                 self.msgy = 10
-                self.cost_msg("2. Cost: 50")
+                self.cost_msg("2. Cost: " + str(sw_settings.fast_cost))
             case "ranged":
                 self.image = pygame.image.load(AR_BUTTON)
                 self.rect = self.image.get_rect()
@@ -72,7 +72,7 @@ class spawnButtons(Sprite):
                 self.rect.x = 260
                 self.msgx = 270
                 self.msgy = 10
-                self.cost_msg("3. Cost: 75")
+                self.cost_msg("3. Cost: " + str(sw_settings.range_cost))
             case "tank":
                 self.image = pygame.image.load(AT_BUTTON)
                 self.rect = self.image.get_rect()
@@ -82,7 +82,7 @@ class spawnButtons(Sprite):
                 self.rect.x = 390
                 self.msgx = 400
                 self.msgy = 10
-                self.cost_msg("4. Cost: 100")
+                self.cost_msg("4. Cost: " + str(sw_settings.tank_cost))
             case "laser":
                 self.image = pygame.image.load(LZR_BUTTON)
                 self.rect = self.image.get_rect()
@@ -93,7 +93,7 @@ class spawnButtons(Sprite):
                 self.rect.y = 300
                 self.msgx = 190
                 self.msgy = 310
-                self.cost_msg("Cost: 400")
+                self.cost_msg("Cost: " + str(sw_settings.laser_cost))
     
     def cost_msg(self, msg):
         if msg == "Cost: 400":
